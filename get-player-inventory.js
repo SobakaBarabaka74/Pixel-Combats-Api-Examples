@@ -14,9 +14,9 @@ Timers.OnPlayerTimer.Add(function(t) {
     
   if (id == 'inventory') {
     if (prop.Get('index').Value < (WEAPONS.length - 1)) {
-      p.inventory[WEAPONS[prop.Get('index')].Value = true;
+      p.inventory[WEAPONS[prop.Get('index').Value]].Value = true;
       prop.Get('index').Value += 1;
-      p.Timers.Restart(UPDATING_TIME);
+      p.Timers.Get('inventory').Restart(UPDATING_TIME);
     }
     else {
       prop.Get('index').Value = 0;
@@ -28,10 +28,16 @@ Timers.OnPlayerTimer.Add(function(t) {
 Teams.Add('Blue', 'Blue', { b: 1 });
 Teams.Add('Red', 'Red', { r: 1 });
 
+// Забираем инвентарь
+WEAPONS.forEach(function(weapon) {
+  Inventory.GetContext()[weapon].Value = false;
+});
+
 // На всякий случай, ставим в индекс выдачи значение 0
 Teams.OnRequestJoinTeam.Add(function(p, t) {
   t.add(p);
   p.Properties.Get('index').Value = 0;
+  p.Spawns.Spawn();
   
   // Тестируем
   p.Timers.Get('inventory').Restart(UPDATING_TIME);
