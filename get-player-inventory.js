@@ -34,5 +34,5 @@ Teams.OnRequestJoinTeam.Add(function(p, t) {
   p.Properties.Get('index').Value = 0;
   
   // Тестируем
-  p.Timers.Restart(UPDATING_TIME);
+  p.Timers.Get('inventory').Restart(UPDATING_TIME);
 });
